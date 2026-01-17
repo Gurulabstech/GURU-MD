@@ -49,7 +49,8 @@
     "@mrnima/tiktok-downloader": "1.0.0",
     "@mrnima/facebook-downloader": "1.0.0",
     "mrnima-moviedl": "1.0.0",
-    "ruhend-scraper": "^9.0.8"          
+    "ruhend-scraper": "^9.0.8",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0"   
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
