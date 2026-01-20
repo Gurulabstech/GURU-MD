@@ -39,7 +39,7 @@
       </a>
     </td>
     <td align="center">
-      <a href="https://guru-provistions.lovable.app">
+      <a href="https://YOUR-USERNAME.github.io/GURU-MD/verify.html">
         <img src="https://img.shields.io/badge/🔑_GET_SESSION_ID-2575FC?style=for-the-badge&logo=key&logoColor=white" alt="Get Session ID" height="60">
       </a>
     </td>
@@ -62,6 +62,19 @@
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&duration=3000&color=00C853&center=true&vCenter=true&width=600&lines=Secure+⚡+Fast+⚡+Multi-Device;Powered+by+Baileys+MD+Latest;500%2B+Commands+Available" alt="Typing SVG">
 </p>
+
+---
+
+## 🔐 **SESSION ID ACCESS – FORK VERIFICATION REQUIRED**
+
+To use the pairing service and prevent abuse:
+- You **must fork** this repository first.
+- Click the **GET SESSION ID** button above.
+- On the verification page, enter your exact GitHub username.
+- If your fork is detected → you will be automatically redirected to the pairing page.
+- Otherwise → follow the prompt to fork and try again.
+
+This keeps the free pairing server available for genuine users.
 
 ---
 
@@ -115,21 +128,27 @@
 
 ### **1. Quick Deploy (Recommended)**
 1. **Fork this repository first** - [Click here to fork](https://github.com/Gurulabstech/GURU-MD/fork)
-2. Click any deploy button above → Use YOUR forked repo URL
-3. Get Session ID from: [https://xgurupairing1-b1268276f8b5.herokuapp.com](https://xgurupairing1-b1268276f8b5.herokuapp.com)
-4. Add Session ID to environment variables → Deploy!
+2. Click any deploy button above → **Use YOUR forked repo URL** (replace Gurulabstech with your username)
+3. Get Session ID:
+   - Click **GET SESSION ID** button in QUICK ACTIONS
+   - Complete GitHub username fork verification
+   - Get redirected to pairing page → scan QR or get pairing code
+4. Add the obtained **SESSION_ID** (or creds.json content) to environment variables → Deploy!
 
 ### **2. Local Installation**
 ```bash
-# Clone the repository
-git clone https://github.com/Gurulabstech/GURU-MD.git
+# Clone YOUR forked repository (important!)
+git clone https://github.com/YOUR-USERNAME/GURU-MD.git
 cd GURU-MD
 
 # Install dependencies
 npm install
 
-# Get Session ID from pairing site
-# Visit: https://xgurupairing1-b1268276f8b5.herokuapp.com
+# Get Session ID:
+# 1. Go to the GET SESSION ID button in the repo README (your fork)
+# 2. Verify your GitHub username
+# 3. Complete pairing on the redirected page
+# 4. Save the session (usually creds.json or a base64 string)
 
 # Start the bot
 npm start
