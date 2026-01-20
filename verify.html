@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GURU-MD • Verify Fork</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+  <style>
+    body { max-width: 600px; margin: 3rem auto; padding: 1.5rem; text-align: center; background: #0f0f17; color: #e0e0ff; font-family: system-ui, sans-serif; }
+    h1 { color: #00C853; }
+    .error { color: #ff4d4d; font-weight: bold; }
+    .success { color: #00C853; font-weight: bold; font-size: 1.3rem; }
+    #result { min-height: 3rem; margin: 2rem 0; font-size: 1.2rem; }
+    input { width: 320px; padding: 0.8rem; font-size: 1.1rem; border-radius: 6px; border: 1px solid #444; background: #1a1a2e; color: white; }
+    button { padding: 0.9rem 2rem; font-size: 1.2rem; background: #2575FC; border: none; border-radius: 6px; color: white; cursor: pointer; margin-top: 1rem; }
+    button:hover { background: #1e5ed8; }
+  </style>
+</head>
+<body>
+  <h1>GURU-MD Session ID</h1>
+  <h3>Fork Verification Required</h3>
+
+  <p style="font-size: 1.1rem; margin: 1.5rem 0;">
+    Please enter your GitHub username to confirm you forked <strong>Gurulabstech/GURU-MD</strong>.<br>
+    This protects our free pairing server.
+  </p>
+
+  <input type="text" id="username" placeholder="your-github-username" autofocus />
+  <br>
+  <button onclick="verifyFork()">Verify & Get Session ID</button>
+
+  <div id="result"></div>
+
+  <script>
+    const OWNER = "Gurulabstech";
+    const REPO = "GURU-MD";
+    const PAIRING_URL = "https://xgurupairing1-b1268276f8b5.herokuapp.com";
+
+    async function verifyFork() {
+      const username = document.getElementById("username").value.trim();
+      const result = document.getElementById("result");
+
+      if (!username) {
+        result.innerHTML = '<span class="error">Please enter your GitHub username</span>';
+        return;
+      }
+
+      result.innerHTML = '<span style="color:#FFD700;">Checking... ⏳</span>';
+
+      try {
+        const response = await fetch(`https://api.github.com/repos/\( {OWNER}/ \){REPO}/forks?per_page=100`);
+        if (!response.ok) throw new Error("GitHub API error");
+
+        const forks = await response.json();
+        const hasForked = forks.some(fork => fork.owner.login.toLowerCase() === username.toLowerCase());
+
+        if (hasForked) {
+          result.innerHTML = '<span class="success">✅ Verified! Redirecting to pairing page...</span>';
+          setTimeout(() => { window.location.href = PAIRING_URL; }, 1800);
+        } else {
+          result.innerHTML = `<span class="error">❌ Fork not found for @\( {username}<br><br><a href="https://github.com/ \){OWNER}/${REPO}/fork" target="_blank" style="color:#FFD700;">Fork the repo now</a></span>`;
+        }
+      } catch (err) {
+        result.innerHTML = `<span class="error">Error: ${err.message}<br>(Try again in a minute – GitHub rate limit)</span>`;
+      }
+    }
+  </script>
+</body>
+</html>
