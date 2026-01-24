@@ -50,7 +50,8 @@
     "mrnima-moviedl": "1.0.0",
     "ruhend-scraper": "^9.0.8",
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
-    "pdfkit": "^0.15.0"
+    "pdfkit": "^0.15.0",
+    "cli-table3": "^0.6.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
