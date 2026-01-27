@@ -1,4 +1,4 @@
-{
+const cleanPkg = `{
   "name": "GURU_MD",
   "version": "4.5.0",
   "description": "A WhatsApp Bot Created by GuruTech",
@@ -21,7 +21,7 @@
     "api-dylux": "1.8.5",
     "axios": "^1.2.5",
     "btch-downloader": "^2.2.9",
-    "chalk": "^5.3.0",
+    "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
     "cli-table3": "^0.6.5",
     "crypto-js": "latest",
@@ -50,4 +50,4 @@
   },
   "author": "GuruTech",
   "license": "ISC"
-}
+}`;
