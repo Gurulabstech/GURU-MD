@@ -17,7 +17,7 @@
     "pm2:status": "pm2 status"
   },
   "dependencies": {
-    "@whiskeysockets/baileys": "npm:@fizzxydev/baileys-pro@8.5.12",
+    "@whiskeysockets/baileys": "npm:gifted-baileys@2.0.0",
     "@adiwajshing/keyed-db": "^0.2.4",
     "adm-zip": "^0.5.16",
     "axios": "^1.7.7",
