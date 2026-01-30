@@ -34,7 +34,7 @@ module.exports = {
     // ──────────────── Auto Features ────────────────
     AUTO_REACT: process.env.AUTO_REACT || "false",
     CUSTOM_REACT: process.env.CUSTOM_REACT || "false",
-    CUSTOM_REACT_EMOJIS: process.env.CUSTOM_REACT_EMOJIS || "💝,💖,💗,❤️‍🩹,❤️,🧡,💛,💚,💙,💜,🤎,🖤,🤍",
+    CUSTOM_REACT_EMOJIS: process.env.CUSTOM_REACT_EMOJIS || "🚀,🌟,⚡,🔥,💫,🪐,🌙,☄️,💥,✨,🌀,🌌,🛸,🎇,🎆",
     AUTO_VOICE: process.env.AUTO_VOICE || "false",
     AUTO_STICKER: process.env.AUTO_STICKER || "false",
     AUTO_REPLY: process.env.AUTO_REPLY || "false",
@@ -65,7 +65,45 @@ module.exports = {
     AUTO_TYPING_ON_CMD: process.env.AUTO_TYPING_ON_CMD || "true",   // Show typing when processing cmds
     AUTO_READ_RECEIPTS: process.env.AUTO_READ_RECEIPTS || "true",   // Send blue ticks automatically
 
-    // Add more here if you want (future-proof)
-    // MAX_GROUP_LIMIT: process.env.MAX_GROUP_LIMIT || 10,
-    // AUTO_BACKUP: process.env.AUTO_BACKUP || "false",
+    // ──────────────── Tagging / Branding (customizable) ────────────────
+    ENABLE_TAGGING: convertToBool(process.env.ENABLE_TAGGING, 'true'),
+    BOT_TAG_TEXT: process.env.BOT_TAG_TEXT || "> _Powered by GURU MD 💢_",
+    TAG_POSITION: process.env.TAG_POSITION || "end",                // "end" or "start"
+
+    // ──────────────── Even More Advanced / Future-Proof Options (2026+) ────────────────
+    COMMAND_COOLDOWN_SECONDS: Number(process.env.COMMAND_COOLDOWN_SECONDS) || 3,      // Anti-spam per command
+    MAX_GROUP_LIMIT: Number(process.env.MAX_GROUP_LIMIT) || 0,                       // 0 = unlimited
+    AUTO_BACKUP_SESSIONS: convertToBool(process.env.AUTO_BACKUP_SESSIONS, 'false'),  // Backup creds.json periodically
+    BACKUP_INTERVAL_MINUTES: Number(process.env.BACKUP_INTERVAL_MINUTES) || 60,      // How often to backup
+    ANTI_SPAM_VOICE: convertToBool(process.env.ANTI_SPAM_VOICE, 'false'),            // Block voice spam
+    ALLOWED_COUNTRIES: process.env.ALLOWED_COUNTRIES || "",                         // Comma-separated country codes (e.g. KE,US,TZ)
+    BLOCK_UNKNOWN_USERS: convertToBool(process.env.BLOCK_UNKNOWN_USERS, 'false'),    // Block non-contacts
+    AUTO_TRANSLATE_REPLIES: convertToBool(process.env.AUTO_TRANSLATE_REPLIES, 'false'), // Auto-translate bot replies to user language
+    DEFAULT_LANGUAGE: process.env.DEFAULT_LANGUAGE || "en",                          // Fallback language code
+    MAX_MESSAGE_LENGTH: Number(process.env.MAX_MESSAGE_LENGTH) || 4096,              // Truncate very long messages
+    DEBUG_LOG_LEVEL: process.env.DEBUG_LOG_LEVEL || "info",                          // debug | info | warn | error
+    ENABLE_BETA_FEATURES: convertToBool(process.env.ENABLE_BETA_FEATURES, 'false'),  // Unlock experimental commands
+    BETA_PASSWORD: process.env.BETA_PASSWORD || "",                                  // Optional password for beta access
+
+    // ──────────────── Ultra-Advanced & Experimental Features (2026+) ────────────────
+    ENABLE_AI_AUTO_RESPONSE: convertToBool(process.env.ENABLE_AI_AUTO_RESPONSE, 'false'), // AI replies to non-command messages
+    AI_MODEL: process.env.AI_MODEL || "gpt-4o-mini",                                 // Which AI model to use
+    AI_TEMPERATURE: Number(process.env.AI_TEMPERATURE) || 0.7,                       // Creativity level (0.0–1.0)
+    AUTO_AI_THINKING: convertToBool(process.env.AUTO_AI_THINKING, 'true'),           // Show "Thinking..." before AI reply
+    VOICE_COMMAND_ENABLED: convertToBool(process.env.VOICE_COMMAND_ENABLED, 'false'), // Process voice messages as commands
+    VOICE_COMMAND_PREFIX: process.env.VOICE_COMMAND_PREFIX || "hey guru",            // Wake phrase for voice commands
+    ENABLE_IMAGE_GENERATION: convertToBool(process.env.ENABLE_IMAGE_GENERATION, 'false'), // .imagine <prompt>
+    IMAGE_GEN_PROVIDER: process.env.IMAGE_GEN_PROVIDER || "dalle",                   // dalle | stable-diffusion | flux
+    MAX_IMAGE_GEN_PER_DAY: Number(process.env.MAX_IMAGE_GEN_PER_DAY) || 10,          // Limit per user/day
+    ENABLE_WEB_SEARCH_IN_AI: convertToBool(process.env.ENABLE_WEB_SEARCH_IN_AI, 'true'), // Let AI search web when needed
+    ENABLE_MULTI_LANGUAGE_AI: convertToBool(process.env.ENABLE_MULTI_LANGUAGE_AI, 'true'), // Detect & reply in user language
+    USER_LANGUAGE_DETECTION: convertToBool(process.env.USER_LANGUAGE_DETECTION, 'true'),
+    ENABLE_GROUP_AI_MODERATION: convertToBool(process.env.ENABLE_GROUP_AI_MODERATION, 'false'), // AI detects toxicity/spam
+    TOXICITY_THRESHOLD: Number(process.env.TOXICITY_THRESHOLD) || 0.7,               // 0.0–1.0 (higher = stricter)
+    AUTO_FORWARD_TO_OWNER: convertToBool(process.env.AUTO_FORWARD_TO_OWNER, 'false'), // Forward all commands to owner
+    FORWARD_EXCLUDE_COMMANDS: process.env.FORWARD_EXCLUDE_COMMANDS || "alive,menu,ping", // Comma-separated list
+    ENABLE_SESSION_SHARING: convertToBool(process.env.ENABLE_SESSION_SHARING, 'false'), // Allow owner to share session QR
+    SESSION_EXPIRY_DAYS: Number(process.env.SESSION_EXPIRY_DAYS) || 30,              // Auto-logout after X days inactivity
+    ENABLE_DAILY_BACKUP_NOTIFY: convertToBool(process.env.ENABLE_DAILY_BACKUP_NOTIFY, 'true'), // Notify owner on backup
+    DAILY_BACKUP_TIME: process.env.DAILY_BACKUP_TIME || "03:00",                     // 24h format (HH:MM)
 };
