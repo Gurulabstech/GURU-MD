@@ -164,9 +164,9 @@
     }, 
     
     "CUSTOM_REACT_EMOJIS": {
-      "description": "put here custom react emojis.",
+      "description": "put here custom react emojis (comma separated).",
       "required": false,
-      "value": "💝,💖,💗,❤️‍🩹,❤️,🧡,💛,💚,💙,💜,🤎,🖤,🤍"
+      "value": "🌌,🪐,🚀,⚡,💫,🔥,✨,🌠,🛸,☄️,🌙,🌀,🎆,💥,🌟"
     }, 
     
     "ANTI_DEL_PATH": {
@@ -191,6 +191,56 @@
       "description": "Make it true if you want bot read your all sms just now.",
       "required": false,
       "value": "false"
+    },
+
+  
+    "BOT_NAME_FONT": {
+      "description": "Fancy font for BOT_NAME (Unicode) - change anytime",
+      "required": false,
+      "value": "𝐆𝐔𝐑𝐔 𝐌𝐃"
+    },
+
+    "OWNER_NAME_FONT": {
+      "description": "Fancy font for OWNER_NAME (Unicode)",
+      "required": false,
+      "value": "𝙂𝙪𝙧𝙪𝙏𝙚𝙘𝙝"
+    },
+
+    "DESCRIPTION_FONT": {
+      "description": "Fancy font/style for DESCRIPTION/captions",
+      "required": false,
+      "value": "✦ © ᴄʀᴇᴀᴛᴇᴅ ʙʏ GuruTech ✦"
+    },
+
+
+    "COMMAND_COOLDOWN_SECONDS": {
+      "description": "Cooldown between commands (anti-spam) in seconds",
+      "required": false,
+      "value": "3"
+    },
+
+    "AUTO_BACKUP_SESSIONS": {
+      "description": "Auto backup session file daily (true/false)",
+      "required": false,
+      "value": "false"
+    },
+
+    "ENABLE_TAGGING": {
+      "description": "Add bot branding/tag to every reply (true/false)",
+      "required": false,
+      "value": "true"
+    },
+
+    "BOT_TAG_TEXT": {
+      "description": "Custom tag/branding text added to replies",
+      "required": false,
+      "value": "> _Powered by GURU MD 💢_"
+    },
+
+    "TAG_POSITION": {
+      "description": "Where to place the tag: 'end' or 'start'",
+      "required": false,
+      "value": "end"
     }
   },
 
