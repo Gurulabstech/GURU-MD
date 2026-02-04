@@ -3,10 +3,18 @@
   "version": "4.5.0",
   "description": "A WhatsApp Bot Created by GuruTech",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
     "start": "pm2 start index.js --deep-monitoring --attach --name GURU_MD",
     "stop": "pm2 stop GURU_MD",
     "restart": "pm2 restart GURU_MD"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
+  },
+  "overrides": {
+    "jimp": "0.16.13"
   },
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
@@ -31,6 +39,7 @@
     "form-data": "^4.0.0",
     "fs-extra": "^11.1.0",
     "google-tts-api": "^2.0.2",
+    "gifted-btns": "^1.0.0",
     "megajs": "^1.1.0",
     "moment-timezone": "^0.5.45",
     "mrnima-moviedl": "1.0.0",
