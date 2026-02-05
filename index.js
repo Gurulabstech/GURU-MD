@@ -5,57 +5,30 @@ const AdmZip = require("adm-zip");
 const { spawn } = require("child_process");
 const chalk = require("chalk");
 
-// === TEMP DIRECTORY ===
+// TEMP DIRECTORY
 const TEMP_DIR = path.join(__dirname, ".guruh-temp");
 
-// === GIT CONFIG ===
+// GIT CONFIG
 const DOWNLOAD_URL = "https://github.com/itsguruu/GURUH/archive/refs/heads/main.zip";
 const EXTRACT_DIR = path.join(TEMP_DIR, "GURUH-main");
 const LOCAL_SETTINGS = path.join(__dirname, "config.js");
 const EXTRACTED_SETTINGS = path.join(EXTRACT_DIR, "config.js");
 
-// === HELPERS ===
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+// HELPERS
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-// === RECURSIVELY RENAME ALL .js → .cjs ===
-function renameJsToCjs(dir) {
-  fs.readdirSync(dir, { withFileTypes: true }).forEach(entry => {
-    const fullPath = path.join(dir, entry.name);
-    if (entry.isDirectory()) {
-      renameJsToCjs(fullPath);
-    } else if (entry.name.endsWith(".js")) {
-      const newPath = fullPath.replace(/\.js$/, ".cjs");
-      fs.renameSync(fullPath, newPath);
-      console.log(chalk.dim(`Renamed: ${entry.name} → ${path.basename(newPath)}`));
-    }
-  });
-}
-
-// === FIX require('./something.js') → require('./something.cjs') in a file ===
-function fixRequiresInFile(filePath) {
-  if (!fs.existsSync(filePath)) return;
-  let content = fs.readFileSync(filePath, "utf8");
-  // Simple regex replace - looks for require('./...js') or require("../...js")
-  content = content.replace(
-    /require\(['"]([\.\/]+[^'"]+\.js)['"]\)/g,
-    (match, p1) => `require('\( {p1.replace(/\.js \)/, ".cjs")}')`
-  );
-  fs.writeFileSync(filePath, content, "utf8");
-  console.log(chalk.dim(`Fixed requires in: ${path.basename(filePath)}`));
-}
-
-// === MAIN LOGIC ===
+// MAIN LOGIC ── DOWNLOAD + EXTRACT
 async function downloadAndExtract() {
   try {
     if (fs.existsSync(TEMP_DIR)) {
-      console.log(chalk.yellow("🧹 Cleaning previous cache..."));
+      console.log(chalk.yellow("Cleaning cache..."));
       fs.rmSync(TEMP_DIR, { recursive: true, force: true });
     }
 
     fs.mkdirSync(TEMP_DIR, { recursive: true });
 
     const zipPath = path.join(TEMP_DIR, "guruh.zip");
-    console.log(chalk.blue("⬇️ Downloading GURU MD PREMIUM from GitHub..."));
+    console.log(chalk.blue("Downloading repo..."));
 
     const response = await axios({
       url: DOWNLOAD_URL,
@@ -71,91 +44,79 @@ async function downloadAndExtract() {
       writer.on("error", reject);
     });
 
-    console.log(chalk.green("📦 ZIP download complete."));
+    console.log(chalk.green("Download complete."));
 
     const zip = new AdmZip(zipPath);
     zip.extractAllTo(TEMP_DIR, true);
-    console.log(chalk.green("📂 Extraction completed."));
+    console.log(chalk.green("Extraction complete."));
 
     if (fs.existsSync(zipPath)) fs.unlinkSync(zipPath);
-
-    // Remove "type": "module" from package.json
-    const pkgPath = path.join(EXTRACT_DIR, "package.json");
-    if (fs.existsSync(pkgPath)) {
-      let pkg = JSON.parse(fs.readFileSync(pkgPath, "utf8"));
-      if (pkg.type === "module") {
-        delete pkg.type;
-        fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2));
-        console.log(chalk.yellow("Removed 'type: module' from package.json → forcing CommonJS"));
-      }
-    }
-
-    // Rename EVERY .js → .cjs in the entire extracted folder
-    renameJsToCjs(EXTRACT_DIR);
-    console.log(chalk.yellow("All .js files renamed to .cjs"));
-
-    // Fix require paths in the main index.cjs
-    const entryPoint = path.join(EXTRACT_DIR, "index.cjs");
-    if (fs.existsSync(entryPoint)) {
-      fixRequiresInFile(entryPoint);
-    }
-
-    // Optionally fix other important files (e.g. command loader, lib files)
-    // You can add more paths here if needed
   } catch (err) {
-    console.error(chalk.red("❌ Download/Extract failed:"), err.message);
+    console.error(chalk.red("Download/Extract failed:"), err.message);
     throw err;
   }
 }
 
+// APPLY LOCAL CONFIG
 async function applyLocalSettings() {
   if (!fs.existsSync(LOCAL_SETTINGS)) {
-    console.log(chalk.yellow("⚠️ No local config.js found → skipping."));
+    console.log(chalk.yellow("No local config.js → skipping."));
     return;
   }
 
   try {
     fs.mkdirSync(EXTRACT_DIR, { recursive: true });
     fs.copyFileSync(LOCAL_SETTINGS, EXTRACTED_SETTINGS);
-    console.log(chalk.green("🛠️ Local config.js applied."));
+    console.log(chalk.green("Local config applied."));
   } catch (err) {
-    console.error(chalk.red("❌ Failed to apply config:"), err.message);
+    console.error(chalk.red("Config apply failed:"), err.message);
   }
 
   await delay(400);
 }
 
+// START BOT
 function startBot() {
-  console.log(chalk.cyan("🚀 Launching GURU MD WhatsApp Bot..."));
+  console.log(chalk.cyan("Launching bot..."));
 
   if (!fs.existsSync(EXTRACT_DIR)) {
-    console.error(chalk.red("❌ Extracted directory not found."));
+    console.error(chalk.red("Extracted folder missing."));
     return;
   }
 
-  const commonJsEntry = path.join(EXTRACT_DIR, "index.cjs");
+  const original = path.join(EXTRACT_DIR, "index.js");
+  const cjsEntry = path.join(EXTRACT_DIR, "index.cjs");
 
-  if (!fs.existsSync(commonJsEntry)) {
-    console.error(chalk.red("❌ index.cjs not found after renaming."));
+  if (!fs.existsSync(original)) {
+    console.error(chalk.red("index.js not found in downloaded repo."));
     return;
   }
 
-  const bot = spawn("node", [commonJsEntry], {
-    cwd: EXTRACT_DIR,
-    stdio: "inherit",
-    env: { ...process.env, NODE_ENV: "production" },
-  });
+  // Only rename the entry point
+  fs.renameSync(original, cjsEntry);
+  console.log(chalk.yellow("Entry point renamed to index.cjs"));
 
-  bot.on("close", (code) => {
-    console.log(chalk.red(`Bot terminated with code: ${code}`));
-  });
+  // Give Node a moment for GC
+  setTimeout(() => {
+    const bot = spawn("node", [cjsEntry], {
+      cwd: EXTRACT_DIR,
+      stdio: "inherit",
+      env: { ...process.env, NODE_ENV: "production" },
+    });
 
-  bot.on("error", (err) => {
-    console.error(chalk.red("Spawn error:"), err.message);
-  });
+    bot.on("close", (code) => {
+      console.log(chalk.red(`Bot exited with code ${code}`));
+      process.exit(code);  // <--- CRITICAL: downloader dies here → frees memory
+    });
+
+    bot.on("error", (err) => {
+      console.error(chalk.red("Spawn failed:"), err.message);
+      process.exit(1);
+    });
+  }, 500);
 }
 
-// === RUN ===
+// RUN EVERYTHING
 (async () => {
   try {
     await downloadAndExtract();
@@ -163,6 +124,6 @@ function startBot() {
     startBot();
   } catch (err) {
     console.error(chalk.red("Fatal error:"), err.message);
-    process.exitCode = 1;
+    process.exit(1);
   }
 })();
