@@ -7,11 +7,11 @@
   "scripts": {
     "start": "pm2 start index.js --deep-monitoring --attach --name GURU_MD",
     "stop": "pm2 stop GURU_MD",
-    "restart": "pm2 restart GURU_MD"
+    "restart": "pm2 restart GURU_MD",
+    "postinstall": "npm install -g npm@10 || true"
   },
   "engines": {
-    "node": "20.x",
-    "npm": "10.x"
+    "node": "20.x"
   },
   "overrides": {
     "jimp": "0.16.13"
