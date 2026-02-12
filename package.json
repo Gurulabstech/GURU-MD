@@ -2,11 +2,11 @@
   "name": "GURU_MD",
   "version": "4.5.0",
   "description": "A WhatsApp Bot Created by GuruTech",
-  "main": "index.cjs",
+  "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node index.cjs",
-    "pm2-start": "pm2 start index.cjs --deep-monitoring --attach --name GURU_MD",
+    "start": "node index.js",
+    "pm2-start": "pm2 start index.js --deep-monitoring --attach --name GURU_MD",
     "pm2-stop": "pm2 stop GURU_MD",
     "pm2-restart": "pm2 restart GURU_MD",
     "postinstall": "npm install pm2@latest --no-save || true",
@@ -67,19 +67,5 @@
     "ytdlp-nodejs": "^2.3.5"
   },
   "author": "GuruTech",
-  "license": "ISC",
-  "keywords": [
-    "whatsapp-bot",
-    "baileys",
-    "gurumd",
-    "whatsapp"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/itsguruu/GURU"
-  },
-  "bugs": {
-    "url": "https://github.com/itsguruu/GURU/issues"
-  },
-  "homepage": "https://github.com/itsguruu/GURU#readme"
+  "license": "ISC"
 }
