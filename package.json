@@ -9,13 +9,12 @@
     "pm2-start": "pm2 start index.cjs --deep-monitoring --attach --name GURU_MD",
     "pm2-stop": "pm2 stop GURU_MD",
     "pm2-restart": "pm2 restart GURU_MD",
-    "postinstall": "npm install -g pm2@latest || true",
-    "fix-jimp": "npm install jimp@0.16.13",
-    "fix-all": "npm install && npm run fix-jimp"
+    "postinstall": "npm install pm2@latest --no-save || true",
+    "heroku-postbuild": "echo 'Skipping heroku-postbuild'",
+    "fix-jimp": "npm install jimp@0.16.13 --no-save"
   },
   "engines": {
-    "node": "20.x",
-    "npm": "10.x"
+    "node": "20.x"
   },
   "overrides": {
     "jimp": "0.16.13",
@@ -67,7 +66,6 @@
     "yt-search": "2.11.1",
     "ytdlp-nodejs": "^2.3.5"
   },
-  "devDependencies": {},
   "author": "GuruTech",
   "license": "ISC",
   "keywords": [
