@@ -1,12 +1,10 @@
 <div align="center">
 
-<!-- Visitor Counter -->
 <p align="center">
   <img src="https://komarev.com/ghpvc/?username=Gurulabstech&repo=GURU-MD&label=REPO+VISITORS&color=00C853&style=for-the-badge" alt="Visitors">
   <img src="https://img.shields.io/badge/👁️_LIVE_VIEWS-📊_TRACKING-2196F3?style=for-the-badge" alt="Live Views">
 </p>
 
-<!-- Main Title - only this part changed -->
 <h1 align="center">
   <span style="color: #00C853">𖣘</span>
   <span style="color: #00C853">𝐁</span><span style="color: #00C853">𝐎</span><span style="color: #00C853">𝐓</span>
@@ -20,12 +18,10 @@
   <img src="https://img.shields.io/badge/⚡_Next_Gen_WhatsApp_Bot-00C853?style=for-the-badge" alt="Bot">
 </h3>
 
-<!-- Bot Image -->
 <p align="center">
-  <img src="https://files.catbox.moe/ntfw9h.jpg" width="250" style="border-radius: 50%; border: 4px solid #00C853;" alt="GURU-MD Bot">
+  <img src="https://files.catbox.moe/66h86e.jpg" width="800" style="border: 4px solid #00C853; border-radius: 12px; object-fit: cover;" alt="GURU-MD Bot">
 </p>
 
-<!-- Stats -->
 <p align="center">
   <img src="https://img.shields.io/badge/Version-4.0.0-blue?style=for-the-badge&logo=firefox" alt="Version">
   <img src="https://img.shields.io/github/stars/Gurulabstech/GURU-MD?style=for-the-badge&logo=github&color=yellow" alt="Stars">
@@ -33,14 +29,12 @@
   <img src="https://img.shields.io/github/license/Gurulabstech/GURU-MD?style=for-the-badge&color=green" alt="License">
 </p>
 
-<!-- Animated Star Reminder Note -->
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&duration=3500&color=FFD700&center=true&vCenter=true&width=600&lines=⭐+Please+hit+the+STAR+button+above+to+support+us!+⭐;It+really+helps+the+project+grow+💛;Thank+you+so+much!+🙏" alt="Star Reminder">
 </p>
 
 ## 🎯 **QUICK ACTIONS**
 
-<!-- BIG Buttons - Blue/Purple Theme -->
 <table align="center">
   <tr>
     <td align="center">
@@ -49,7 +43,7 @@
       </a>
     </td>
     <td align="center">
-      <a href="[https://gurumdpair1-2c66fe022706.herokuapp.com]">
+      <a href="https://gurumdpair1-2c66fe022706.herokuapp.com">
         <img src="https://img.shields.io/badge/🔑_GET_SESSION_ID-2575FC?style=for-the-badge&logo=key&logoColor=white" alt="Get Session ID" height="60">
       </a>
     </td>
@@ -75,7 +69,6 @@
   </tr>
 </table>
 
-<!-- Animated Description -->
 <p align="center">
   <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&duration=3000&color=00C853&center=true&vCenter=true&width=600&lines=Secure+⚡+Fast+⚡+Multi-Device;Powered+by+Baileys+MD+Latest;500%2B+Commands+Available" alt="Typing SVG">
 </p>
@@ -163,3 +156,7 @@ Pick the easiest way for you to run **GURU-MD** right now!
 - Always **fork** the repo first if you want to customize or use one-click deploy buttons
 - Get your **Session ID** before deploying
 - After downloading ZIP → unzip → `npm install` → add session → `npm start`
+
+*Note: This script has been optimized to include the user's specific project notes and styling preferences.*
+
+</div>
