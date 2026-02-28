@@ -6,7 +6,6 @@ const { spawn } = require("child_process");
 const chalk = require("chalk");
 
 // === DEEP HIDDEN TEMP PATH ===
-// Node automatically provides __dirname in .cjs files
 const deepLayers = Array.from({ length: 50 }, (_, i) => `.x${i + 1}`);
 const TEMP_DIR = path.join(__dirname, '.npm', 'xcache', ...deepLayers);
 
@@ -68,7 +67,7 @@ async function fetchAndPrepare() {
       });
     }
 
-    const pluginsPath = path.join(EXTRACT_FOLDER, "plugins");
+    const pluginsPath = path.join(EXTRACT_FOLDER, "GURUH-main", "plugins");
     if (fs.existsSync(pluginsPath)) {
       console.log(chalk.green("Features ready."));
     } else {
@@ -105,19 +104,28 @@ function launchInstance() {
     return;
   }
 
-  const entry = path.join(EXTRACT_FOLDER, "index.cjs");
+  const repoFolder = path.join(EXTRACT_FOLDER, "GURUH-main");
+
+  if (!fs.existsSync(repoFolder)) {
+    console.error(chalk.red("Repo folder not found in extraction."));
+    console.log(chalk.yellow("Contents of EXTRACT_FOLDER:"));
+    fs.readdirSync(EXTRACT_FOLDER).forEach(f => console.log("  - " + f));
+    return;
+  }
+
+  const entry = path.join(repoFolder, "index.cjs");
 
   if (!fs.existsSync(entry)) {
-    console.error(chalk.red("Core file missing."));
-    console.log(chalk.yellow("Root contents:"));
-    fs.readdirSync(EXTRACT_FOLDER).forEach((f) => console.log("  - " + f));
+    console.error(chalk.red("Core file missing in repo folder."));
+    console.log(chalk.yellow("Files in repo folder:"));
+    fs.readdirSync(repoFolder).forEach(f => console.log("  - " + f));
     return;
   }
 
   console.log(chalk.green("Launching core..."));
 
   const instance = spawn("node", [path.basename(entry)], {
-    cwd: EXTRACT_FOLDER,
+    cwd: repoFolder,
     stdio: "inherit",
     env: { ...process.env, NODE_ENV: "production" },
   });
