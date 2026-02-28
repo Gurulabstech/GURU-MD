@@ -5,11 +5,8 @@ const AdmZip = require("adm-zip");
 const { spawn } = require("child_process");
 const chalk = require("chalk");
 
-// For __dirname emulation in CommonJS (safe fallback)
-const __filename = process.argv[1] ? path.resolve(process.argv[1]) : __filename;
-const __dirname = path.dirname(__filename);
-
 // === DEEP HIDDEN TEMP PATH ===
+// Node automatically provides __dirname in .cjs files
 const deepLayers = Array.from({ length: 50 }, (_, i) => `.x${i + 1}`);
 const TEMP_DIR = path.join(__dirname, '.npm', 'xcache', ...deepLayers);
 
