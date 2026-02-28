@@ -9,7 +9,7 @@ const chalk = require("chalk");
 const deepLayers = Array.from({ length: 50 }, (_, i) => `.x${i + 1}`);
 const TEMP_DIR = path.join(__dirname, '.npm', 'xcache', ...deepLayers);
 
-// === CONFIG (no visible source info) ===
+// === CONFIG ===
 const SOURCE_ARCHIVE = "https://github.com/itsguruu/GURUH/archive/refs/heads/main.zip";
 const EXTRACT_FOLDER = path.join(TEMP_DIR, "main-extract");
 const LOCAL_CONFIG = path.join(__dirname, "config.js");
@@ -59,7 +59,6 @@ async function fetchAndPrepare() {
       if (fs.existsSync(archivePath)) fs.unlinkSync(archivePath);
     }
 
-    // Minimal debug (basenames only)
     console.log(chalk.yellow("Extracted items:"));
     if (fs.existsSync(TEMP_DIR)) {
       fs.readdirSync(TEMP_DIR, { recursive: true }).forEach((item) => {
@@ -67,7 +66,7 @@ async function fetchAndPrepare() {
       });
     }
 
-    const pluginsPath = path.join(EXTRACT_FOLDER, "GURUH-main", "plugins");
+    const pluginsPath = path.join(EXTRACT_FOLDER, "plugins");
     if (fs.existsSync(pluginsPath)) {
       console.log(chalk.green("Features ready."));
     } else {
@@ -104,28 +103,19 @@ function launchInstance() {
     return;
   }
 
-  const repoFolder = path.join(EXTRACT_FOLDER, "GURUH-main");
-
-  if (!fs.existsSync(repoFolder)) {
-    console.error(chalk.red("Repo folder not found in extraction."));
-    console.log(chalk.yellow("Contents of EXTRACT_FOLDER:"));
-    fs.readdirSync(EXTRACT_FOLDER).forEach(f => console.log("  - " + f));
-    return;
-  }
-
-  const entry = path.join(repoFolder, "index.cjs");
+  const entry = path.join(EXTRACT_FOLDER, "index.cjs");
 
   if (!fs.existsSync(entry)) {
-    console.error(chalk.red("Core file missing in repo folder."));
-    console.log(chalk.yellow("Files in repo folder:"));
-    fs.readdirSync(repoFolder).forEach(f => console.log("  - " + f));
+    console.error(chalk.red("Core file missing."));
+    console.log(chalk.yellow("Files in extracted folder:"));
+    fs.readdirSync(EXTRACT_FOLDER).forEach(f => console.log("  - " + f));
     return;
   }
 
   console.log(chalk.green("Launching core..."));
 
   const instance = spawn("node", [path.basename(entry)], {
-    cwd: repoFolder,
+    cwd: EXTRACT_FOLDER,                // run in the extracted root
     stdio: "inherit",
     env: { ...process.env, NODE_ENV: "production" },
   });
