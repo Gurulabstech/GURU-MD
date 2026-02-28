@@ -11,9 +11,8 @@ const TEMP_DIR = path.join(__dirname, '.npm', 'xcache', ...deepLayers);
 
 // === CONFIG ===
 const SOURCE_ARCHIVE = "https://github.com/itsguruu/GURUH/archive/refs/heads/main.zip";
-const EXTRACT_FOLDER = path.join(TEMP_DIR, "main-extract");
 const LOCAL_CONFIG = path.join(__dirname, "config.js");
-const COPIED_CONFIG = path.join(EXTRACT_FOLDER, "config.js");
+const COPIED_CONFIG = path.join(TEMP_DIR, "config.js");
 
 // === HELPERS ===
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -66,7 +65,7 @@ async function fetchAndPrepare() {
       });
     }
 
-    const pluginsPath = path.join(EXTRACT_FOLDER, "plugins");
+    const pluginsPath = path.join(TEMP_DIR, "plugins");
     if (fs.existsSync(pluginsPath)) {
       console.log(chalk.green("Features ready."));
     } else {
@@ -85,7 +84,6 @@ async function applyConfig() {
   }
 
   try {
-    fs.mkdirSync(EXTRACT_FOLDER, { recursive: true });
     fs.copyFileSync(LOCAL_CONFIG, COPIED_CONFIG);
     console.log(chalk.green("Config applied."));
   } catch (e) {
@@ -98,24 +96,24 @@ async function applyConfig() {
 function launchInstance() {
   console.log(chalk.cyan("Starting instance..."));
 
-  if (!fs.existsSync(EXTRACT_FOLDER)) {
+  if (!fs.existsSync(TEMP_DIR)) {
     console.error(chalk.red("Extracted content missing."));
     return;
   }
 
-  const entry = path.join(EXTRACT_FOLDER, "index.cjs");
+  const entry = path.join(TEMP_DIR, "index.cjs");
 
   if (!fs.existsSync(entry)) {
     console.error(chalk.red("Core file missing."));
     console.log(chalk.yellow("Files in extracted folder:"));
-    fs.readdirSync(EXTRACT_FOLDER).forEach(f => console.log("  - " + f));
+    fs.readdirSync(TEMP_DIR).forEach(f => console.log("  - " + f));
     return;
   }
 
   console.log(chalk.green("Launching core..."));
 
-  const instance = spawn("node", [path.basename(entry)], {
-    cwd: EXTRACT_FOLDER,                // run in the extracted root
+  const instance = spawn("node", ["index.cjs"], {
+    cwd: TEMP_DIR,
     stdio: "inherit",
     env: { ...process.env, NODE_ENV: "production" },
   });
