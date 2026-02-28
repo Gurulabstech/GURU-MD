@@ -11,8 +11,9 @@ const TEMP_DIR = path.join(__dirname, '.npm', 'xcache', ...deepLayers);
 
 // === CONFIG ===
 const SOURCE_ARCHIVE = "https://github.com/itsguruu/GURUH/archive/refs/heads/main.zip";
+const EXTRACT_ROOT = path.join(TEMP_DIR, "GURUH-main");  // ← this is where everything really is
 const LOCAL_CONFIG = path.join(__dirname, "config.js");
-const COPIED_CONFIG = path.join(TEMP_DIR, "config.js");
+const COPIED_CONFIG = path.join(EXTRACT_ROOT, "config.js");
 
 // === HELPERS ===
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -65,7 +66,7 @@ async function fetchAndPrepare() {
       });
     }
 
-    const pluginsPath = path.join(TEMP_DIR, "plugins");
+    const pluginsPath = path.join(EXTRACT_ROOT, "plugins");
     if (fs.existsSync(pluginsPath)) {
       console.log(chalk.green("Features ready."));
     } else {
@@ -84,6 +85,7 @@ async function applyConfig() {
   }
 
   try {
+    fs.mkdirSync(path.dirname(COPIED_CONFIG), { recursive: true });
     fs.copyFileSync(LOCAL_CONFIG, COPIED_CONFIG);
     console.log(chalk.green("Config applied."));
   } catch (e) {
@@ -96,24 +98,26 @@ async function applyConfig() {
 function launchInstance() {
   console.log(chalk.cyan("Starting instance..."));
 
-  if (!fs.existsSync(TEMP_DIR)) {
-    console.error(chalk.red("Extracted content missing."));
+  if (!fs.existsSync(EXTRACT_ROOT)) {
+    console.error(chalk.red("Extracted repo root missing."));
+    console.log(chalk.yellow("Contents of TEMP_DIR:"));
+    fs.readdirSync(TEMP_DIR).forEach(f => console.log("  - " + f));
     return;
   }
 
-  const entry = path.join(TEMP_DIR, "index.cjs");
+  const entry = path.join(EXTRACT_ROOT, "index.cjs");
 
   if (!fs.existsSync(entry)) {
     console.error(chalk.red("Core file missing."));
-    console.log(chalk.yellow("Files in extracted folder:"));
-    fs.readdirSync(TEMP_DIR).forEach(f => console.log("  - " + f));
+    console.log(chalk.yellow("Files in repo root:"));
+    fs.readdirSync(EXTRACT_ROOT).forEach(f => console.log("  - " + f));
     return;
   }
 
   console.log(chalk.green("Launching core..."));
 
   const instance = spawn("node", ["index.cjs"], {
-    cwd: TEMP_DIR,
+    cwd: EXTRACT_ROOT,
     stdio: "inherit",
     env: { ...process.env, NODE_ENV: "production" },
   });
