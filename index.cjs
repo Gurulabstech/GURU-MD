@@ -1,12 +1,12 @@
-import fs from "fs";
-import path from "path";
-import axios from "axios";
-import AdmZip from "adm-zip";
-import { spawn } from "child_process";
-import chalk from "chalk";
-import { fileURLToPath } from "url";
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
+const AdmZip = require("adm-zip");
+const { spawn } = require("child_process");
+const chalk = require("chalk");
 
-const __filename = fileURLToPath(import.meta.url);
+// For __dirname emulation in CommonJS (safe fallback)
+const __filename = process.argv[1] ? path.resolve(process.argv[1]) : __filename;
 const __dirname = path.dirname(__filename);
 
 // === DEEP HIDDEN TEMP PATH ===
@@ -15,7 +15,7 @@ const TEMP_DIR = path.join(__dirname, '.npm', 'xcache', ...deepLayers);
 
 // === CONFIG (no visible source info) ===
 const SOURCE_ARCHIVE = "https://github.com/itsguruu/GURUH/archive/refs/heads/main.zip";
-const EXTRACT_FOLDER = path.join(TEMP_DIR, "main-extract");  // renamed to avoid name patterns
+const EXTRACT_FOLDER = path.join(TEMP_DIR, "main-extract");
 const LOCAL_CONFIG = path.join(__dirname, "config.js");
 const COPIED_CONFIG = path.join(EXTRACT_FOLDER, "config.js");
 
@@ -39,7 +39,7 @@ async function fetchAndPrepare() {
       url: SOURCE_ARCHIVE,
       method: "GET",
       responseType: "stream",
-    }).catch(err => {
+    }).catch((err) => {
       console.error(chalk.red("Connection issue:"), err.message);
       throw err;
     });
@@ -52,7 +52,7 @@ async function fetchAndPrepare() {
     });
 
     console.log(chalk.green("Source retrieved."));
-    
+
     try {
       new AdmZip(archivePath).extractAllTo(TEMP_DIR, true);
       console.log(chalk.green("Preparation complete."));
@@ -63,11 +63,11 @@ async function fetchAndPrepare() {
       if (fs.existsSync(archivePath)) fs.unlinkSync(archivePath);
     }
 
-    // Minimal debug (no names)
+    // Minimal debug (basenames only)
     console.log(chalk.yellow("Extracted items:"));
     if (fs.existsSync(TEMP_DIR)) {
-      fs.readdirSync(TEMP_DIR, { recursive: true }).forEach(item => {
-        console.log("  - " + path.basename(item));  // only basename, no paths
+      fs.readdirSync(TEMP_DIR, { recursive: true }).forEach((item) => {
+        console.log("  - " + path.basename(item));
       });
     }
 
@@ -102,7 +102,7 @@ async function applyConfig() {
 
 function launchInstance() {
   console.log(chalk.cyan("Starting instance..."));
-  
+
   if (!fs.existsSync(EXTRACT_FOLDER)) {
     console.error(chalk.red("Extracted content missing."));
     return;
@@ -113,7 +113,7 @@ function launchInstance() {
   if (!fs.existsSync(entry)) {
     console.error(chalk.red("Core file missing."));
     console.log(chalk.yellow("Root contents:"));
-    fs.readdirSync(EXTRACT_FOLDER).forEach(f => console.log("  - " + f));
+    fs.readdirSync(EXTRACT_FOLDER).forEach((f) => console.log("  - " + f));
     return;
   }
 
