@@ -1,0 +1,6 @@
+config.js
+sessions/
+data/
+node_modules/
+.env
+*.log
